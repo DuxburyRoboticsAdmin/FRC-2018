@@ -11,6 +11,11 @@ public class Robot extends TimedRobot
 	
 	private ArrayList<Subsystem> mSubsystems;
 	
+	public Robot()
+	{
+		mSubsystems = new ArrayList<>();
+	}
+	
 	
 	public void robotInit()
 	{
@@ -33,7 +38,6 @@ public class Robot extends TimedRobot
 		{
 			s.init();
 		}
-		
 	}
 	
 	public void teleopPeriodic()
