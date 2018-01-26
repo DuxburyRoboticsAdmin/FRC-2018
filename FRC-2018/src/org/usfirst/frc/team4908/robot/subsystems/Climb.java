@@ -2,16 +2,15 @@ package org.usfirst.frc.team4908.robot.subsystems;
 
 public class Climb extends Subsystem
 {
-	public static Climb mInstance = new Climb();
+	public static final Climb mInstance = new Climb();
 	public static Climb getInstance()
 	{
 		return mInstance;
 	}
 	
-	
 	private Climb()
 	{
-		
+
 	}
 
 	@Override
@@ -21,9 +20,9 @@ public class Climb extends Subsystem
 	}
 
 	@Override
-	public void loop() 
+	public void loop()
 	{
-		
+
 	}
 
 	@Override

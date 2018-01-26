@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class Drive extends Subsystem
 {
-	public static Drive mInstance = new Drive();
+	public static final Drive mInstance = new Drive();
 	public static Drive getInstance()
 	{
 		return mInstance;

@@ -9,7 +9,6 @@ public class DriveHelper
 		double x = OperatorInterface.getInstance().getDriverX();
 		double rot = OperatorInterface.getInstance().getDriverRot();
 	
-		
 		x = x * Math.abs(x);
 		rot = rot * Math.abs(rot);
 
