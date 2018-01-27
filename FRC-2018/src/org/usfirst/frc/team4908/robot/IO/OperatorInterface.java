@@ -45,6 +45,22 @@ public class OperatorInterface
 		return (Math.abs(getDriverX()) > Constants.kJoystickDeadzone || Math.abs(getDriverRot()) >= Constants.kJoystickDeadzone);
 	}
 	
+	public boolean getSolOne()
+	{
+		return mDriverLeftStick.getRawButton(3);
+		
+	}
+	
+	public boolean getSolTwo()
+	{
+		return mDriverLeftStick.getRawButton(4);
+	}
+	
+	public boolean getSolThree()
+	{
+		return mDriverLeftStick.getRawButton(5);
+	}
+	
 	
 	public double getPrAIOne()
 	{
