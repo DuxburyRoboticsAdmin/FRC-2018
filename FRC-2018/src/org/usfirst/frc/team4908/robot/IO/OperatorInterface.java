@@ -55,4 +55,10 @@ public class OperatorInterface
 	{
 		return 2 * (pr_analog_two.getAverageValue() / 4096.0) - 1.0;
 	}
+
+	public int[] getAutoInputs()
+	{
+		// TODO: Poteniometer Logic for finding desired values
+		return new int[]{0,0,0};
+	}
 }
