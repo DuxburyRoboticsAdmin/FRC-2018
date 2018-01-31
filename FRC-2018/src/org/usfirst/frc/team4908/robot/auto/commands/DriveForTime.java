@@ -27,6 +27,8 @@ public class DriveForTime extends AutoCommand
 	
 	public void loop()
 	{
+		
+		// TODO: GRAB CURRENT ANGLE FROM NAVX
 		Drive.getInstance().driveForTime(mSpeed, (currentAngle - startAngle));
 	}
 
