@@ -19,7 +19,6 @@ public class Prototype extends Subsystem
 	
 	DoubleSolenoid dx_one;
 	DoubleSolenoid dx_two;
-	DoubleSolenoid dx_three;
 	
 	private boolean isTwoDeployed;
 	private boolean twoWasPressed;
@@ -31,7 +30,6 @@ public class Prototype extends Subsystem
 		
 		dx_one = new DoubleSolenoid(0, 1);
 		dx_two = new DoubleSolenoid(2, 3);
-		dx_three = new DoubleSolenoid(4, 5);
 		
 		isTwoDeployed = false;
 		twoWasPressed = false;

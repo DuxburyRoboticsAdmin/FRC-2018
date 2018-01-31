@@ -103,8 +103,20 @@ public class Drive extends Subsystem
 		mDriveState = DriveState.NEUTRAL;
 		
 	}
-
 	
 	
-
+	
+	
+	
+	// AUTON METHODS
+	
+	public void driveForTime(double speed, double angle)
+	{
+		// TODO: ADD ANGLE CORRECTION
+		// TODO: DECIDE ON STATIC P GAIN (good enough lmao) OR PID LOOP (hard)
+		
+		setMotors(new DriveCommand(speed, speed));
+	}	
+		
+	
 }
