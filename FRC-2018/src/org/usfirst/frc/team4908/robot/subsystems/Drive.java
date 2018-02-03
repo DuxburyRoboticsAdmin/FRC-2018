@@ -3,7 +3,12 @@ package org.usfirst.frc.team4908.robot.subsystems;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 import org.usfirst.frc.team4908.robot.motion.DriveCommand;
 import org.usfirst.frc.team4908.robot.motion.DriveHelper;
+import org.usfirst.frc.team4908.robot.util.Constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class Drive extends Subsystem
@@ -14,10 +19,18 @@ public class Drive extends Subsystem
 		return mInstance;
 	}
 	
-	private SpeedController leftMaster;
-	private SpeedController leftSlave;
-	private SpeedController rightMaster;
-	private SpeedController rightSlave;
+	private TalonSRX leftMaster;
+	private TalonSRX leftSlave;
+	private TalonSRX rightMaster;
+	private TalonSRX rightSlave;
+	
+	private DoubleSolenoid mShifter;
+	
+	
+	private OperatorInterface oi = OperatorInterface.getInstance();
+	
+	private boolean mShifterWasPressed = false;
+	private boolean isHighGear = true;
 	
 	private enum DriveState
 	{
@@ -32,12 +45,12 @@ public class Drive extends Subsystem
 	
 	private Drive()
 	{
-		//frontLeft = new SpeedController(Constants.kLeftMasterID);
-		//rearLeft = new SpeedController(Constants.kLeftSlaveID);
-		//frontRight = new SpeedController(Constants.kRightMasterID);
-		//rearRight = new SpeedController(Constants.kRightSlaveID);
-		
-		
+		leftMaster = new TalonSRX(Constants.kLeftMasterID);
+		leftSlave = new TalonSRX(Constants.kLeftSlaveID);
+		rightMaster = new TalonSRX(Constants.kRightMasterID);
+		rightSlave = new TalonSRX(Constants.kRightSlaveID);	
+	
+		mShifter = new DoubleSolenoid(0,1);
 	}
 	
 
@@ -72,22 +85,44 @@ public class Drive extends Subsystem
 				break;
 			}
 		}
+		
+		
+		
+
+		if(oi.getSolTwo() && !mShifterWasPressed)
+		{
+			if(isHighGear)
+			{
+				mShifter.set(DoubleSolenoid.Value.kReverse);
+				isHighGear = false;
+			}
+			else
+			{
+				mShifter.set(DoubleSolenoid.Value.kForward);
+				isHighGear = true;
+			}
+			
+			mShifterWasPressed = true;
+		}
+		else if(!oi.getSolTwo() && mShifterWasPressed)
+		{
+			mShifter.set(DoubleSolenoid.Value.kOff);
+			mShifterWasPressed = false;
+		}
+		
+		
+		
 	}
 	
 	
-	private void setMotors(DriveCommand dc)
+	public void setMotors(DriveCommand dc)
 	{
 		//TODO: add talon setting stuff
 		
-		/**
-		 
-		 mLeftMaster.set(dc.getLeft());
-		 mRightMaster.set(dc.getRight());
-		 
-		 
-		 
-		 */
-		
+		leftMaster.set(ControlMode.PercentOutput, -dc.getLeft());
+		rightMaster.set(ControlMode.PercentOutput, dc.getRight());
+		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
+		rightSlave.set(ControlMode.Follower, Constants.kRightMasterID);
 	}
 
 	@Override
@@ -117,6 +152,18 @@ public class Drive extends Subsystem
 		
 		setMotors(new DriveCommand(speed, speed));
 	}	
+	
+	
+	
+	public void followPath(DriveCommand dc)
+	{
+		leftMaster.set(ControlMode.Velocity, dc.getLeft());
+		rightMaster.set(ControlMode.Velocity, dc.getRight());
+		
+		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
+		rightSlave.set(ControlMode.Follower, Constants.kRightMasterID);
+		
+	}
 		
 	
 }

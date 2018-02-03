@@ -9,9 +9,7 @@ public abstract class AutoCommand
 	public double timeOutTime;
 	public double startTime;
 	public double currentTime;
-		
-	public AutoTrigger trigger;
-	
+
 	public enum commandType
 	{
 		INITIAL,

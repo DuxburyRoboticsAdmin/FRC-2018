@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4908.robot.auto;
 
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
+import org.usfirst.frc.team4908.robot.auto.routines.TestRoutine;
 
 /**
  * @author Siggy
@@ -28,17 +29,24 @@ public class AutoRunner
 			{
 				
 				
+				
+				
 				break;
 			}
 			default:
+			{
+				mRoutine = new TestRoutine();
+				
 				break;
+			}
+			
 		}
 	}
 	
 	
 	public void loop()
 	{		
-		
+		mRoutine.loop();
 	}
 	
 	

@@ -10,16 +10,12 @@ public class Intake extends Subsystem
 	public static final Intake mInstance = new Intake();
 	public static Intake getInstance() { return mInstance; }
 	
-	TalonSRX leftMotor;
-	TalonSRX rightMotor;
-	
 	OperatorInterface oi = OperatorInterface.getInstance();
 	
 	
 	public Intake()
 	{
-		leftMotor = new TalonSRX(2);
-		rightMotor = new TalonSRX(8);
+		
 	}
 	
 
@@ -32,9 +28,6 @@ public class Intake extends Subsystem
 	@Override
 	public void loop() 
 	{
-		leftMotor.set(ControlMode.PercentOutput, oi.getDriverX());
-		rightMotor.set(ControlMode.PercentOutput, -oi.getDriverX());
-	
 	}
 
 	@Override

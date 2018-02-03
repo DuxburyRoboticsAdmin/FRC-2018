@@ -87,16 +87,6 @@ public abstract class AutoRoutine
 		
 	}
 	
-	public void runCommand()
-	{
-		
-	}
-	
-	public void runSequential()
-	{
-		
-	}
-	
 	// Adds each command to the array list of THIS class
 	public void addCommand(AutoCommand comm)
 	{

@@ -24,14 +24,12 @@ public class OperatorInterface
 		mDriverRightStick 	= new Joystick(1);
 		mOperatorPanel 		= new Joystick(2);	
 		
-		pr_analog_one = new AnalogInput(0);
-		pr_analog_two = new AnalogInput(1);
 	}
 	
 	
 	public double getDriverX()
 	{
-		return(mDriverLeftStick.getRawAxis(1));
+		return(-mDriverLeftStick.getRawAxis(1));
 	}
 	
 	public double getDriverRot()
@@ -53,7 +51,7 @@ public class OperatorInterface
 	
 	public boolean getSolTwo()
 	{
-		return mDriverLeftStick.getRawButton(4);
+		return mDriverLeftStick.getRawButton(1);
 	}
 	
 	public boolean getSolThree()
@@ -75,6 +73,9 @@ public class OperatorInterface
 	public int[] getAutoInputs()
 	{
 		// TODO: Poteniometer Logic for finding desired values
+		
+		
+		
 		return new int[]{0,0,0};
 	}
 }
