@@ -6,6 +6,7 @@ import org.usfirst.frc.team4908.robot.motion.DriveHelper;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -157,12 +158,28 @@ public class Drive extends Subsystem
 	
 	public void followPath(DriveCommand dc)
 	{
-		leftMaster.set(ControlMode.Velocity, dc.getLeft());
+		leftMaster.set(ControlMode.Velocity, -dc.getLeft());
 		rightMaster.set(ControlMode.Velocity, dc.getRight());
 		
 		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
 		rightSlave.set(ControlMode.Follower, Constants.kRightMasterID);
 		
+	}
+	
+	public void configTalonsVelocityMode()
+	{
+		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+	
+		leftMaster.configNominalOutputForward(0, 10);
+		leftMaster.configNominalOutputReverse(0, 10);
+		leftMaster.configPeakOutputForward(1, 10);
+		leftMaster.configPeakOutputReverse(-1, 10);
+		
+		rightMaster.configNominalOutputForward(0, 10);
+		rightMaster.configNominalOutputReverse(0, 10);
+		rightMaster.configPeakOutputForward(1, 10);
+		rightMaster.configPeakOutputReverse(-1, 10);
 	}
 		
 	

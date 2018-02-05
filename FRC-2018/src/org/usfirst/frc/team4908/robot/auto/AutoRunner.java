@@ -26,21 +26,28 @@ public class AutoRunner
 		switch (oi.getAutoInputs()[0]) 
 		{
 			case 0: // LEFT POSITION
+			{				
+
+			}
+			case 1: // MIDDLE POSITION
 			{
 				
+			}
+			case 2: // RIGHT POSITION
+			{
 				
-				
-				
-				break;
 			}
 			default:
 			{
-				mRoutine = new TestRoutine();
-				
+				mRoutine = new TestRoutine();	
 				break;
 			}
 			
 		}
+		
+		
+		
+		mRoutine.routine();
 	}
 	
 	

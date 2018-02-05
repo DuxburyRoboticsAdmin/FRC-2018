@@ -14,11 +14,11 @@ public class Constants
 	// DRIVE CONSTANTS
 	public static final int kLeftMasterID 	= 6;
 	public static final int kLeftSlaveID	= 4;
-	public static final int kRightMasterID	= 7;
-	public static final int kRightSlaveID	= 3;
+	public static final int kRightMasterID	= 3;
+	public static final int kRightSlaveID	= 7;
 	
-	public static final double kTrackWidth	= 0;
-	public static final double kWheelCircumference = 0;
+	public static final double kTrackWidth	= 29.75;
+	public static final double kWheelCircumference = 19.25;
 	
 	public static final double kJoystickDeadzone = 0.05;
 	

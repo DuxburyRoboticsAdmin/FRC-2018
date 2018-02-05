@@ -10,7 +10,7 @@ public class FollowPath extends AutoCommand
 	Trajectory mTrajectory;
 	int mIndex;
 	
-	FollowPath(commandType type, double timeOutTime, Trajectory trajectory) 
+	public FollowPath(commandType type, double timeOutTime, Trajectory trajectory) 
 	{
 		super(type, timeOutTime);
 		
@@ -35,7 +35,7 @@ public class FollowPath extends AutoCommand
 	@Override
 	public boolean finished() 
 	{	
-		return mIndex > mTrajectory.getSetpoints().size();
+		return mIndex > mTrajectory.getSetpoints().size() - 1;
 	}
 
 	@Override

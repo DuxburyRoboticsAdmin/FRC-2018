@@ -13,12 +13,14 @@ public class TestPath1
 	
 	public TestPath1()
 	{
+		mRPs = new ArrayList();
+		
 		mRPs.add(new ReferencePoint(0.0, 0.0));
 		mRPs.add(new ReferencePoint(0.0, 2.0));
-		mRPs.add(new ReferencePoint(7.0, 9.0));
-		mRPs.add(new ReferencePoint(6.0, 3.0));
+		mRPs.add(new ReferencePoint(0.0, 4.0));
+		mRPs.add(new ReferencePoint(0.0, 6.0));
 		
-		mTrajectory =  new Trajectory(5.0, mRPs);
+		mTrajectory =  new Trajectory(6.0, mRPs);
 	}	
 	
 	
