@@ -20,7 +20,7 @@ public class TestPath1
 		mRPs.add(new ReferencePoint(0.0, 4.0));
 		mRPs.add(new ReferencePoint(0.0, 6.0));
 		
-		mTrajectory =  new Trajectory(6.0, mRPs);
+		mTrajectory =  new Trajectory(0.85, mRPs);
 	}	
 	
 	

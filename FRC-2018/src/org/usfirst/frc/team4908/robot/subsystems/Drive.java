@@ -120,6 +120,11 @@ public class Drive extends Subsystem
 	{
 		//TODO: add talon setting stuff
 		
+
+		System.out.println("left enc:  " + leftMaster.getSelectedSensorVelocity(0));
+		System.out.println("right enc: " + rightMaster.getSelectedSensorVelocity(0));
+		
+		
 		leftMaster.set(ControlMode.PercentOutput, -dc.getLeft());
 		rightMaster.set(ControlMode.PercentOutput, dc.getRight());
 		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
@@ -158,6 +163,9 @@ public class Drive extends Subsystem
 	
 	public void followPath(DriveCommand dc)
 	{
+		System.out.println("left enc:  " + leftMaster.getSelectedSensorVelocity(0));
+		System.out.println("right enc: " + rightMaster.getSelectedSensorVelocity(0));
+		
 		leftMaster.set(ControlMode.Velocity, -dc.getLeft());
 		rightMaster.set(ControlMode.Velocity, dc.getRight());
 		
@@ -168,18 +176,21 @@ public class Drive extends Subsystem
 	
 	public void configTalonsVelocityMode()
 	{
-		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-	
-		leftMaster.configNominalOutputForward(0, 10);
-		leftMaster.configNominalOutputReverse(0, 10);
-		leftMaster.configPeakOutputForward(1, 10);
-		leftMaster.configPeakOutputReverse(-1, 10);
+		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
-		rightMaster.configNominalOutputForward(0, 10);
-		rightMaster.configNominalOutputReverse(0, 10);
-		rightMaster.configPeakOutputForward(1, 10);
-		rightMaster.configPeakOutputReverse(-1, 10);
+		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		leftMaster.setSensorPhase(true);
+		rightMaster.setSensorPhase(false);
+		
+		leftMaster.configNominalOutputForward(0, 0);
+		leftMaster.configNominalOutputReverse(0, 0);
+		leftMaster.configPeakOutputForward(1, 0);
+		leftMaster.configPeakOutputReverse(-1, 0);
+		
+		rightMaster.configNominalOutputForward(0, 0);
+		rightMaster.configNominalOutputReverse(0, 0);
+		rightMaster.configPeakOutputForward(1, 0);
+		rightMaster.configPeakOutputReverse(-1, 0);
 	}
 		
 	

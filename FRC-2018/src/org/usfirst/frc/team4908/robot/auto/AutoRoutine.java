@@ -19,16 +19,22 @@ public abstract class AutoRoutine
 
 	public void loop()
 	{
+		
 		if(!mRunning && !mDone)
 		{
-			if(mIndex == mCommands.size() - 1)
-				mFinalCommand = true;
 			
-			if(!mFinalCommand)
-				mNextCommandParallel = mCommands.get(mIndex + 1).equals(AutoCommand.commandType.PARALLEL);
+			if(mIndex == mCommands.size() - 1)
+			{
+				mFinalCommand = true;
+			}
 			
 			mCommands.get(mIndex).init();
 			
+			if(!mFinalCommand)
+			{
+				mNextCommandParallel = mCommands.get(mIndex + 1).equals(AutoCommand.commandType.PARALLEL);
+			}
+				
 			if(mNextCommandParallel)
 			{
 				mCommands.get(mIndex + 1).init();
@@ -42,6 +48,7 @@ public abstract class AutoRoutine
 		
 			if(!mNextCommandParallel && mCommands.get(mIndex).finished() || mCommands.get(mIndex).timeOut())
 			{
+				
 				mCommands.get(mIndex).end();
 				mRunning = false;
 				mIndex++;

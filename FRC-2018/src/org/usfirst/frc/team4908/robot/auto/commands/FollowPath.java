@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4908.robot.auto.commands;
 
 import org.usfirst.frc.team4908.robot.auto.*;
+import org.usfirst.frc.team4908.robot.motion.DriveCommand;
 import org.usfirst.frc.team4908.robot.motion.DriveHelper;
 import org.usfirst.frc.team4908.robot.motion.trajectories.Trajectory;
 import org.usfirst.frc.team4908.robot.subsystems.Drive;
@@ -28,7 +29,7 @@ public class FollowPath extends AutoCommand
 	@Override
 	public void loop() 
 	{
-		Drive.getInstance().setMotors(DriveHelper.followPath(mIndex, mTrajectory));
+		Drive.getInstance().followPath(DriveHelper.followPath(mIndex, mTrajectory));
 		mIndex++;
 	}
 
@@ -41,7 +42,7 @@ public class FollowPath extends AutoCommand
 	@Override
 	public void end() 
 	{
-		
+		Drive.getInstance().setMotors(new DriveCommand(0, 0));
 	}
 
 }

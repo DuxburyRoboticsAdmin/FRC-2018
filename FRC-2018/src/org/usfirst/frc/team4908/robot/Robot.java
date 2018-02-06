@@ -41,6 +41,7 @@ public class Robot extends TimedRobot
 	public void autonomousInit()
 	{
 		AutoRunner.getInstance().setRoutine();
+		AutoRunner.getInstance().initRoutine();
 	}
 	  
 	public void autonomousPeriodic()
@@ -63,22 +64,20 @@ public class Robot extends TimedRobot
 		for(Subsystem s : mSubsystems)
 		{
 			s.loop();
-		}
-		
-		System.out.println(us.getAverageValue() / 4.0 * 5.0 / 10.0);
-		
+		}		
 	}
 	
 	public void disabledInit()
 	{
 		c.stop();
+		AutoRunner.getInstance().setRoutine();
 	}
 	
 	public void disabledPeriodic()
 	{
 		//TODO: ADD REDUNDANCIES TO ONLY CHANGE IT WHEN IT IS CHANGED
 		
-		AutoRunner.getInstance().setRoutine();
+		//AutoRunner.getInstance().setRoutine();
 	}
 	
 	

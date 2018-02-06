@@ -44,10 +44,6 @@ public class AutoRunner
 			}
 			
 		}
-		
-		
-		
-		mRoutine.routine();
 	}
 	
 	
@@ -57,9 +53,10 @@ public class AutoRunner
 	}
 	
 	
-	
-	
-	
+	public void initRoutine()
+	{
+		mRoutine.routine();
+	}
 	
 	
 	

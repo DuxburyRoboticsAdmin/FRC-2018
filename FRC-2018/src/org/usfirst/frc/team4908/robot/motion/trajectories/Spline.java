@@ -8,36 +8,18 @@ import java.util.ArrayList;
  */
 public class Spline
 {
-    private String type;
     private int degree;
 
     private ArrayList<ReferencePoint> positionPoints;
     private ArrayList<ReferencePoint> velocityPoints;
 
     private double sIncrement;
+    private double totalTime;
 
     public Spline(double totalTime, ArrayList<ReferencePoint> referencePoints)
     {
+    	this.totalTime = totalTime;
         this.sIncrement = 1.0/(totalTime * 50.0);
-
-        switch (referencePoints.size())
-        {
-            case 2:
-                type = "Linear";
-                break;
-            case 3:
-                type = "Quadratic";
-                break;
-            case 4:
-                type = "Cubic";
-                break;
-            case 5:
-                type = "Quartic";
-                break;
-            default:
-                break;
-        }
-
 
         degree = referencePoints.size() - 1;
         positionPoints = referencePoints;
@@ -100,7 +82,7 @@ public class Spline
 
     public double getdYdX(double s)
     {
-        return Math.sqrt(Math.pow(getDX(s), 2) + Math.pow(getDY(s), 2));
+    	return Math.sqrt(Math.pow(getDX(s), 2) + Math.pow(getDY(s), 2)) / totalTime;
     }
 
     public double getH(double s)
@@ -118,11 +100,6 @@ public class Spline
 
     public double getdHdS(double s)
     {
-        return getDH(s)/(sIncrement);
-    }
-
-    public String getType()
-    {
-        return type;
+        return getDH(s)/(sIncrement * totalTime);
     }
 }
