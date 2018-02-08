@@ -12,8 +12,8 @@ public class Constants
 	
 	
 	// DRIVE CONSTANTS
-	public static final int kLeftMasterID 	= 6;
-	public static final int kLeftSlaveID	= 4;
+	public static final int kLeftMasterID 	= 4;
+	public static final int kLeftSlaveID	= 6;
 	public static final int kRightMasterID	= 3;
 	public static final int kRightSlaveID	= 7;
 	

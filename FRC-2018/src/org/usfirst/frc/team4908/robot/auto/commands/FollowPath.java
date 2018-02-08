@@ -21,9 +21,7 @@ public class FollowPath extends AutoCommand
 	@Override
 	public void init() 
 	{
-		mIndex = 0;
-		// TODO: INIT TALONS FOR VELOCITY CONTROL
-	
+		mIndex = 0;	
 	}
 
 	@Override

@@ -52,18 +52,39 @@ public class Drive extends Subsystem
 		rightSlave = new TalonSRX(Constants.kRightSlaveID);	
 	
 		mShifter = new DoubleSolenoid(0,1);
+		
+		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		leftMaster.setInverted(true);
+		rightMaster.setInverted(true);
+		
+		leftMaster.configNominalOutputForward(0, 0);
+		leftMaster.configNominalOutputReverse(0, 0);
+		leftMaster.configPeakOutputForward(1, 0);
+		leftMaster.configPeakOutputReverse(-1, 0);
+		
+		rightMaster.configNominalOutputForward(0, 0);
+		rightMaster.configNominalOutputReverse(0, 0);
+		rightMaster.configPeakOutputForward(1, 0);
+		rightMaster.configPeakOutputReverse(-1, 0);
+		
+		leftSlave.follow(leftMaster);
+		rightSlave.follow(rightMaster);
 	}
 	
 
 	@Override
 	public void init() 
 	{
-		mDriveState = DriveState.NEUTRAL;
+		mDriveState = DriveState.NEUTRAL;	
 	}
 
 	@Override
 	public void loop() 
 	{
+		
+		
 		if(OperatorInterface.getInstance().joysticksMoving())
 		{
 			mDriveState = DriveState.OPEN_LOOP;
@@ -160,38 +181,21 @@ public class Drive extends Subsystem
 	}	
 	
 	
-	
+	double leftTEMP;
+	double rightTEMP;
 	public void followPath(DriveCommand dc)
 	{
-		System.out.println("left enc:  " + leftMaster.getSelectedSensorVelocity(0));
-		System.out.println("right enc: " + rightMaster.getSelectedSensorVelocity(0));
+		leftTEMP = leftMaster.getSelectedSensorVelocity(0);
+		rightTEMP = rightMaster.getSelectedSensorVelocity(0);
+
+		System.out.println("left enc:  " + leftTEMP + "\t\tDCL: " + dc.getLeft());
+		System.out.println("right enc: " + rightTEMP + "\t\tDCR: " + dc.getRight());
 		
-		leftMaster.set(ControlMode.Velocity, -dc.getLeft());
-		rightMaster.set(ControlMode.Velocity, dc.getRight());
+		leftMaster.set(ControlMode.Velocity, dc.getLeft());
+		rightMaster.set(ControlMode.Velocity, -dc.getRight());
 		
-		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
-		rightSlave.set(ControlMode.Follower, Constants.kRightMasterID);
+		//leftSlave.set(ControlMode.Follower, leftMaster.getDeviceID());
+		//rightSlave.set(ControlMode.Follower, rightMaster.getDeviceID());
 		
-	}
-	
-	public void configTalonsVelocityMode()
-	{
-		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		
-		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		leftMaster.setSensorPhase(true);
-		rightMaster.setSensorPhase(false);
-		
-		leftMaster.configNominalOutputForward(0, 0);
-		leftMaster.configNominalOutputReverse(0, 0);
-		leftMaster.configPeakOutputForward(1, 0);
-		leftMaster.configPeakOutputReverse(-1, 0);
-		
-		rightMaster.configNominalOutputForward(0, 0);
-		rightMaster.configNominalOutputReverse(0, 0);
-		rightMaster.configPeakOutputForward(1, 0);
-		rightMaster.configPeakOutputReverse(-1, 0);
-	}
-		
-	
+	}	
 }

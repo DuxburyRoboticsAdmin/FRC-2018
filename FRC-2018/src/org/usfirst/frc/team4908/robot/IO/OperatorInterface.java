@@ -29,7 +29,7 @@ public class OperatorInterface
 	
 	public double getDriverX()
 	{
-		return(-mDriverLeftStick.getRawAxis(1));
+		return(mDriverLeftStick.getRawAxis(1));
 	}
 	
 	public double getDriverRot()
