@@ -56,9 +56,6 @@ public class Drive extends Subsystem
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
-		leftMaster.setInverted(true);
-		rightMaster.setInverted(true);
-		
 		leftMaster.configNominalOutputForward(0, 0);
 		leftMaster.configNominalOutputReverse(0, 0);
 		leftMaster.configPeakOutputForward(1, 0);
@@ -69,15 +66,34 @@ public class Drive extends Subsystem
 		rightMaster.configPeakOutputForward(1, 0);
 		rightMaster.configPeakOutputReverse(-1, 0);
 		
+		leftSlave.configNominalOutputForward(0, 0);
+		leftSlave.configNominalOutputReverse(0, 0);
+		leftSlave.configPeakOutputForward(1, 0);
+		leftSlave.configPeakOutputReverse(-1, 0);
+		
+		rightSlave.configNominalOutputForward(0, 0);
+		rightSlave.configNominalOutputReverse(0, 0);
+		rightSlave.configPeakOutputForward(1, 0);
+		rightSlave.configPeakOutputReverse(-1, 0);
+		
 		leftSlave.follow(leftMaster);
 		rightSlave.follow(rightMaster);
+		
+		leftMaster.setInverted(true);
+		leftSlave.setInverted(true);
+		
+		
+		// FLIP these such that the sensor reads positive when the talons are GREEN
+		leftMaster.setSensorPhase(false);
+		rightMaster.setSensorPhase(false);
 	}
 	
 
 	@Override
 	public void init() 
 	{
-		mDriveState = DriveState.NEUTRAL;	
+		mDriveState = DriveState.NEUTRAL;
+		resetEncoders();
 	}
 
 	@Override
@@ -146,10 +162,8 @@ public class Drive extends Subsystem
 		System.out.println("right enc: " + rightMaster.getSelectedSensorVelocity(0));
 		
 		
-		leftMaster.set(ControlMode.PercentOutput, -dc.getLeft());
+		leftMaster.set(ControlMode.PercentOutput, dc.getLeft());
 		rightMaster.set(ControlMode.PercentOutput, dc.getRight());
-		leftSlave.set(ControlMode.Follower, Constants.kLeftMasterID);
-		rightSlave.set(ControlMode.Follower, Constants.kRightMasterID);
 	}
 
 	@Override
@@ -166,7 +180,11 @@ public class Drive extends Subsystem
 		
 	}
 	
-	
+	public void resetEncoders()
+	{
+		leftMaster.setSelectedSensorPosition(0, 0, 0);
+		rightMaster.setSelectedSensorPosition(0, 0, 0);
+	}
 	
 	
 	
@@ -191,11 +209,7 @@ public class Drive extends Subsystem
 		System.out.println("left enc:  " + leftTEMP + "\t\tDCL: " + dc.getLeft());
 		System.out.println("right enc: " + rightTEMP + "\t\tDCR: " + dc.getRight());
 		
-		leftMaster.set(ControlMode.Velocity, dc.getLeft());
+		leftMaster.set(ControlMode.Velocity, -dc.getLeft());
 		rightMaster.set(ControlMode.Velocity, -dc.getRight());
-		
-		//leftSlave.set(ControlMode.Follower, leftMaster.getDeviceID());
-		//rightSlave.set(ControlMode.Follower, rightMaster.getDeviceID());
-		
 	}	
 }

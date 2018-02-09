@@ -22,6 +22,7 @@ public class FollowPath extends AutoCommand
 	public void init() 
 	{
 		mIndex = 0;	
+		Drive.getInstance().resetEncoders();
 	}
 
 	@Override
