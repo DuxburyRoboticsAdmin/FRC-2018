@@ -12,9 +12,14 @@ public class Intake extends Subsystem
 	
 	OperatorInterface oi = OperatorInterface.getInstance();
 	
+	private TalonSRX left_motor;
+	private TalonSRX right_motor;
+	private TalonSRX wrist_motor;
+	
 	
 	public Intake()
-	{
+	{	
+		
 		
 	}
 	
@@ -28,6 +33,10 @@ public class Intake extends Subsystem
 	@Override
 	public void loop() 
 	{
+		
+		
+		
+		
 	}
 
 	@Override
