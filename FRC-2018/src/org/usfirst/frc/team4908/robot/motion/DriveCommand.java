@@ -19,5 +19,11 @@ public class DriveCommand
 	{
 		return mRight;
 	}
+	
+	
+	public String toString()
+	{
+		return "Left: " + getLeft() + "\t\tRight: " + getRight();
+	}
 }
 

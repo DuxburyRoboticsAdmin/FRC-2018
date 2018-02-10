@@ -49,7 +49,7 @@ public class DriveHelper
         right = (dX + deltaV) * (1.0/(Constants.kWheelCircumference / 12.0)) * (50.0/24.0) * 4096.0 * (1.0/10.0);
      
         
-        System.out.println(index + " " +(dX - deltaV) + " " + (dX + deltaV) + " " + left + " " + right);
+       // System.out.println(index + " " +(dX - deltaV) + " " + (dX + deltaV) + " " + left + " " + right);
 
         
         return new DriveCommand(left, right);

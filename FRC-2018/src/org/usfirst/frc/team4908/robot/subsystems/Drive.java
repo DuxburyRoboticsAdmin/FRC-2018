@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem
 {
@@ -79,13 +80,19 @@ public class Drive extends Subsystem
 		leftSlave.follow(leftMaster);
 		rightSlave.follow(rightMaster);
 		
-		leftMaster.setInverted(true);
-		leftSlave.setInverted(true);
+		leftMaster.setInverted(false);
+		leftSlave.setInverted(false);
+		
+		rightMaster.setInverted(true);
+		rightSlave.setInverted(true);
 		
 		
 		// FLIP these such that the sensor reads positive when the talons are GREEN
-		leftMaster.setSensorPhase(false);
-		rightMaster.setSensorPhase(false);
+		leftMaster.setSensorPhase(true);
+		rightMaster.setSensorPhase(true);
+		
+		leftMaster.configClosedloopRamp(0.3, 0);
+		rightMaster.configClosedloopRamp(0.3, 0);
 	}
 	
 
@@ -157,9 +164,16 @@ public class Drive extends Subsystem
 	{
 		//TODO: add talon setting stuff
 		
-
-		System.out.println("left enc:  " + leftMaster.getSelectedSensorVelocity(0));
-		System.out.println("right enc: " + rightMaster.getSelectedSensorVelocity(0));
+		
+		SmartDashboard.putNumber("Left Encoder Vel", leftMaster.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Encoder Vel", rightMaster.getSelectedSensorVelocity(0));
+		
+		SmartDashboard.putNumber("Left Encoder Pos", leftMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder Pos", rightMaster.getSelectedSensorPosition(0));
+		
+		SmartDashboard.putNumber("Left Drive Command", dc.getLeft());
+		SmartDashboard.putNumber("Right Drive Command", dc.getRight());
+		
 		
 		
 		leftMaster.set(ControlMode.PercentOutput, dc.getLeft());
@@ -205,11 +219,23 @@ public class Drive extends Subsystem
 	{
 		leftTEMP = leftMaster.getSelectedSensorVelocity(0);
 		rightTEMP = rightMaster.getSelectedSensorVelocity(0);
-
-		System.out.println("left enc:  " + leftTEMP + "\t\tDCL: " + dc.getLeft());
-		System.out.println("right enc: " + rightTEMP + "\t\tDCR: " + dc.getRight());
 		
-		leftMaster.set(ControlMode.Velocity, -dc.getLeft());
-		rightMaster.set(ControlMode.Velocity, -dc.getRight());
+
+		SmartDashboard.putNumber("Left Encoder Vel", leftMaster.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Right Encoder Vel", rightMaster.getSelectedSensorVelocity(0));
+		
+		SmartDashboard.putNumber("Left Encoder Pos", leftMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder Pos", rightMaster.getSelectedSensorPosition(0));
+		
+		SmartDashboard.putNumber("Left Drive Command", dc.getLeft());
+		SmartDashboard.putNumber("Right Drive Command", dc.getRight());
+		
+		
+		leftMaster.set(ControlMode.Velocity, dc.getLeft());
+		rightMaster.set(ControlMode.Velocity, dc.getRight());
+	
+		//rightMaster.set(ControlMode.PercentOutput, 1.0);
 	}	
+	
+	
 }

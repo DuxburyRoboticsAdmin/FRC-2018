@@ -38,7 +38,7 @@ public class Robot extends TimedRobot
 	
 	public void robotInit()
 	{
-    	
+    	mSubsystems.add(Drive.getInstance());
 
 	}
 	
