@@ -21,6 +21,9 @@ public class Constants
 	public static final double kWheelCircumference = 19.25;
 	
 	public static final double kJoystickDeadzone = 0.05;
-	
-	
+
+	// INTAKE CONSTANTS
+	public static final int kWristMotorID		= -1;
+	public static final int kLeftIntakeMotorID	= -1;
+	public static final int kRightIntakeMotorID	= -1;
 }
