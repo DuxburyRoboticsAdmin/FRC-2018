@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
@@ -14,25 +15,17 @@ public class Intake extends Subsystem
 	public static final Intake mInstance = new Intake();
 	public static Intake getInstance() { return mInstance; }
 	OperatorInterface oi = OperatorInterface.getInstance();
-<<<<<<< HEAD
 	
 	private TalonSRX left_motor;
 	private TalonSRX right_motor;
 	private TalonSRX wrist_motor;
 	
-	
-	public Intake()
-	{	
-		
-		
-=======
-
 	private DoubleSolenoid mLeftArmPiston;
 	private DoubleSolenoid mRightArmPiston;
 
 	private TalonSRX mWristMotor;
-	private VictorSP mLeftArmMotor;
-	private VictorSP mRightArmMotor;
+	private TalonSRX mLeftArmMotor;
+	private TalonSRX mRightArmMotor;
 
 	private Potentiometer mLeftPot;
 	private Potentiometer mRightPot;
@@ -64,7 +57,6 @@ public class Intake extends Subsystem
 		mRightArmMotor.configNominalOutputReverse(0, 0);
 		mRightArmMotor.configPeakOutputForward(1, 0);
 		mRightArmMotor.configPeakOutputReverse(-1, 0);
->>>>>>> 517d50a3fbbf65852d133904ef67023cd1174826
 	}
 	
 
@@ -79,15 +71,7 @@ public class Intake extends Subsystem
 	@Override
 	public void loop() 
 	{
-<<<<<<< HEAD
 		
-		
-		
-		
-=======
-
-
->>>>>>> 517d50a3fbbf65852d133904ef67023cd1174826
 	}
 
 	@Override
