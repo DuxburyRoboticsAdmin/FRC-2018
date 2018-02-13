@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4908.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -15,62 +16,90 @@ public class Intake extends Subsystem
 	public static final Intake mInstance = new Intake();
 	public static Intake getInstance() { return mInstance; }
 	OperatorInterface oi = OperatorInterface.getInstance();
-	
-	private TalonSRX left_motor;
-	private TalonSRX right_motor;
-	private TalonSRX wrist_motor;
-	
+
 	private DoubleSolenoid mLeftArmPiston;
 	private DoubleSolenoid mRightArmPiston;
 
 	private TalonSRX mWristMotor;
-	private TalonSRX mLeftArmMotor;
-	private TalonSRX mRightArmMotor;
+	private VictorSP mLeftArmMotor;
+	private VictorSP mRightArmMotor;
 
-	private Potentiometer mLeftPot;
-	private Potentiometer mRightPot;
+	private AnalogInput mLeftPot;
+	private AnalogInput mRightPot;
 
+	private boolean sent = false;
+	private boolean set = false;
+	
+	private boolean mLeftDeployed = false;
+	private boolean mRightDeployed = false;
+	
+	public enum IntakeState
+	{
+		GETTING,
+		CLOSING,
+		ZEROING,
+		DISABLED
+	}
+	public IntakeState mIntakeState;
 	
 	public Intake()
 	{
 		mLeftArmPiston = new DoubleSolenoid(2, 3);
 		mRightArmPiston = new DoubleSolenoid(4, 5);
-
+		
+		mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
+		mRightPot = new AnalogInput(Constants.kRightIntakePotID);
+		
 		mWristMotor 	= new TalonSRX(Constants.kWristMotorID);
-		mLeftArmMotor 	= new TalonSRX(Constants.kLeftIntakeMotorID);
-		mRightArmMotor 	= new TalonSRX(Constants.kRightIntakeMotorID);
+		mLeftArmMotor 	= new VictorSP(Constants.kLeftIntakeMotorID);
+		mRightArmMotor 	= new VictorSP(Constants.kRightIntakeMotorID);
 
+		mWristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		mWristMotor.configNominalOutputForward(0, 0);
 		mWristMotor.configNominalOutputReverse(0, 0);
 		mWristMotor.configPeakOutputForward(1, 0);
 		mWristMotor.configPeakOutputReverse(-1, 0);
-
 		mWristMotor.setInverted(true);
-		mWristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		mWristMotor.setSensorPhase(false);
-
-		mLeftArmMotor.configNominalOutputForward(0, 0);
-		mLeftArmMotor.configNominalOutputReverse(0, 0);
-		mLeftArmMotor.configPeakOutputForward(1, 0);
-		mLeftArmMotor.configPeakOutputReverse(-1, 0);
-		mRightArmMotor.configNominalOutputForward(0, 0);
-		mRightArmMotor.configNominalOutputReverse(0, 0);
-		mRightArmMotor.configPeakOutputForward(1, 0);
-		mRightArmMotor.configPeakOutputReverse(-1, 0);
 	}
 	
 
 	@Override
 	public void init() 
 	{
-		// TODO: init wrist motor for POSITION control, use Mag encoder or potentiometer
-
-
+		 if(!set)
+		 {
+			 mIntakeState = IntakeState.ZEROING;
+		 }
+		 else
+		 {
+			 mIntakeState = IntakeState.DISABLED;
+		 }
 	}
 
 	@Override
 	public void loop() 
 	{
+		if(oi.getIntakeButton() && set)
+		{
+			mIntakeState = IntakeState.GETTING;
+		}
+		
+		
+		switch(mIntakeState)
+		{
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 
@@ -84,6 +113,15 @@ public class Intake extends Subsystem
 	public void interrupt() 
 	{
 		
+	}
+	
+	
+	public void zeroWrist()
+	{
+		
+		
+		
+		set = true;
 	}
 
 }

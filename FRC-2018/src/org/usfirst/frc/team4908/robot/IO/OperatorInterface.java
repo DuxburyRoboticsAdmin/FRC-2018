@@ -22,8 +22,7 @@ public class OperatorInterface
 	{
 		mDriverLeftStick 	= new Joystick(0);
 		mDriverRightStick 	= new Joystick(1);
-		mOperatorPanel 		= new Joystick(2);	
-		
+		mOperatorPanel 		= new Joystick(2);
 	}
 	
 	
@@ -43,32 +42,65 @@ public class OperatorInterface
 		return (Math.abs(getDriverX()) > Constants.kJoystickDeadzone || Math.abs(getDriverRot()) >= Constants.kJoystickDeadzone);
 	}
 	
-	public boolean getSolOne()
-	{
-		return mDriverLeftStick.getRawButton(3);
-		
-	}
-	
-	public boolean getSolTwo()
+	public boolean getShifterButton()
 	{
 		return mDriverLeftStick.getRawButton(1);
 	}
+
 	
-	public boolean getSolThree()
+	// operator inputs
+	
+	
+	public boolean getIntakeButton()
 	{
-		return mDriverLeftStick.getRawButton(5);
+		return mOperatorPanel.getRawButton(Constants.kIntakeEnableButton);
+	}
+	
+	public boolean getIntakeCancelButton()
+	{
+		return mOperatorPanel.getRawButton(Constants.kIntakeDisableButton);
+	}
+	
+	public boolean getManualOpenIntake()
+	{
+		return mOperatorPanel.getRawButton(Constants.kIntakeOpenButton);
+	}
+	
+	public boolean getManualCloseIntake()
+	{
+		return mOperatorPanel.getRawButton(Constants.kIntakeCloseButton);
+	}
+	
+	public double getManualRollers()
+	{
+		return mOperatorPanel.getRawAxis(Constants.kIntakeRollersAxis);
+	}
+	
+	public double getManualWrist()
+	{
+		return mOperatorPanel.getRawAxis(Constants.kIntakeWristAxis);
 	}
 	
 	
-	public double getPrAIOne()
-	{
-		return 2 * (pr_analog_one.getAverageValue() / 4096.0) - 1.0;
-	}
 	
-	public double getPrAITwo()
-	{
-		return 2 * (pr_analog_two.getAverageValue() / 4096.0) - 1.0;
-	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// other inputs
+	
 
 	public int[] getAutoInputs()
 	{
@@ -78,4 +110,6 @@ public class OperatorInterface
 		
 		return new int[]{0,0,0};
 	}
+	
+	
 }
