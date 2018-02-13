@@ -134,7 +134,7 @@ public class Drive extends Subsystem
 		
 		
 
-		if(oi.getSolTwo() && !mShifterWasPressed)
+		if(oi.getShifterButton() && !mShifterWasPressed)
 		{
 			if(isHighGear)
 			{
@@ -149,7 +149,7 @@ public class Drive extends Subsystem
 			
 			mShifterWasPressed = true;
 		}
-		else if(!oi.getSolTwo() && mShifterWasPressed)
+		else if(!oi.getShifterButton() && mShifterWasPressed)
 		{
 			mShifter.set(DoubleSolenoid.Value.kOff);
 			mShifterWasPressed = false;
