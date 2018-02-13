@@ -26,4 +26,9 @@ public class Constants
 	public static final int kWristMotorID		= -1;
 	public static final int kLeftIntakeMotorID	= -1;
 	public static final int kRightIntakeMotorID	= -1;
+
+
+	// LIFT CONSTANTS
+	public static final int kLiftTalonID	= -1;
+	public static final int kLiftVictorID	= -1;
 }
