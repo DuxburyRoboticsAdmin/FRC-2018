@@ -3,6 +3,7 @@ package org.usfirst.frc.team4908.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 
@@ -47,8 +48,8 @@ public class Intake extends Subsystem
 		mLeftArmPiston = new DoubleSolenoid(2, 3);
 		mRightArmPiston = new DoubleSolenoid(4, 5);
 		
-		mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
-		mRightPot = new AnalogInput(Constants.kRightIntakePotID);
+		//mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
+		//mRightPot = new AnalogInput(Constants.kRightIntakePotID);
 		
 		mWristMotor 	= new TalonSRX(Constants.kWristMotorID);
 		mLeftArmMotor 	= new VictorSP(Constants.kLeftIntakeMotorID);
@@ -79,27 +80,28 @@ public class Intake extends Subsystem
 
 	@Override
 	public void loop() 
-	{
-		if(oi.getIntakeButton() && set)
+	{		
+		if(oi.getManualOpenIntake())
 		{
-			mIntakeState = IntakeState.GETTING;
+			mLeftArmPiston.set(Value.kForward);
+			mRightArmPiston.set(Value.kForward);
+		}
+		else if(oi.getManualCloseIntake())
+		{
+			mLeftArmPiston.set(Value.kReverse);
+			mRightArmPiston.set(Value.kReverse);
+		}
+		else
+		{
+			mLeftArmPiston.set(Value.kOff);
+			mRightArmPiston.set(Value.kOff);
 		}
 		
 		
-		switch(mIntakeState)
-		{
+		mLeftArmMotor.set(-oi.getManualRollers());
+		mRightArmMotor.set(oi.getManualRollers());
 		
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		mWristMotor.set(ControlMode.PercentOutput, oi.getManualWrist());
 		
 	}
 
