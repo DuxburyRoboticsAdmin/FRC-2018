@@ -83,7 +83,15 @@ public class OperatorInterface
 	
 	
 	
-	
+	public boolean getClimberRelease()
+	{
+		return mOperatorPanel.getRawButton(Constants.kClimberReleaseButton);
+	}
+
+	public double getClimberSpeed()
+	{
+		return mOperatorPanel.getRawAxis(Constants.kClimberSpeedAxis);
+	}
 	
 	
 	

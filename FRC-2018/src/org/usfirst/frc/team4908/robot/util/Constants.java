@@ -26,13 +26,11 @@ public class Constants
 	public static final int kWristMotorID		= -1;
 	public static final int kLeftIntakeMotorID	= -1;
 	public static final int kRightIntakeMotorID	= -1;
-<<<<<<< HEAD
 
 
 	// LIFT CONSTANTS
 	public static final int kLiftTalonID	= -1;
 	public static final int kLiftVictorID	= -1;
-=======
 	
 	public static final int kLeftIntakePotID	= -1;
 	public static final int kRightIntakePotID	= -1;
@@ -62,5 +60,16 @@ public class Constants
 	
 	public static final int kClimberSolenoidForward	= -1;
 	public static final int kClimberSolenoidReverse	= -1;
->>>>>>> b75d3bd52fd29105f24b748f9cfdacf5217708f9
+
+	public static final int kClimberSwitchID		= -1;
+	public static final int kClimberMaxSpeed		= -1;
+
+	public static final int kClimberReleaseButton	= -1;
+	public static final int kClimberSpeedAxis		= -1;
+
+	public static final double kClimberP			= 0.0;
+	public static final double kClimberI			= 0.0;
+	public static final double kClimberD			= 0.0;
+	public static final double kClimberF			= 0.0;
+
 }

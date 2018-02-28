@@ -27,7 +27,6 @@ public class Intake extends Subsystem
 	private AnalogInput mLeftPot;
 	private AnalogInput mRightPot;
 
-	private boolean sent = false;
 	private boolean set = false;
 	
 	private boolean mLeftDeployed = false;
@@ -37,6 +36,7 @@ public class Intake extends Subsystem
 	{
 		GETTING,
 		CLOSING,
+		HOLDING,
 		ZEROING,
 		DISABLED
 	}
@@ -116,12 +116,21 @@ public class Intake extends Subsystem
 	}
 	
 	
-	public void zeroWrist()
+	public boolean zeroWrist()
 	{
+		if(!set)
+		{
+			mWristMotor.set(ControlMode.PercentOutput, -0.1);
+		}
+		else
+		{
+			set = true;
+		}
 		
 		
-		
-		set = true;
+		return false;
 	}
+
+
 
 }

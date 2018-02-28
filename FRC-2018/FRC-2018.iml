@@ -79,7 +79,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="jdk" jdkName="jre1.8.0_151" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library">
       <library name="CTRE_Phoenix.jar">
         <CLASSES>
@@ -100,5 +100,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="cscore1" level="project" />
+    <orderEntry type="library" name="CTRE_Phoenix" level="project" />
   </component>
 </module>

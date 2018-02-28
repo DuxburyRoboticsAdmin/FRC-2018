@@ -1,5 +1,8 @@
 package org.usfirst.frc.team4908.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
 /**
@@ -31,8 +34,8 @@ public class Lift extends Subsystem
 
         mLiftSlave.follow(mLiftMaster);
 
-        mLiftMaster.configClosedLoopRampRate(0.2, 0);
-        mLiftSlave.configClosedLoopRampRate(0.2, 0);
+        mLiftMaster.configClosedloopRamp(0.2, 0);
+        mLiftSlave.configClosedloopRamp(0.2, 0);
 
         mLiftMaster.setInverted(true);
         mLiftSlave.setInverted(true);

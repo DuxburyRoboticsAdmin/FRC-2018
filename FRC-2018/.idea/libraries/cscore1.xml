@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="cscore1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/wpilib (1)/cscore.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/wpilib (1)/ntcore.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/wpilib (1)/opencv.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/wpilib (1)/WPILib.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/wpilib (1)/wpiutil.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
