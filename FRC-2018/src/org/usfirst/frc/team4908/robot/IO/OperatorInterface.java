@@ -33,7 +33,7 @@ public class OperatorInterface
 	
 	public double getDriverRot()
 	{
-		return (-mDriverRightStick.getRawAxis(0));
+		return (-mDriverRightStick.getRawAxis(2));
 	}
 	
 	
@@ -81,11 +81,26 @@ public class OperatorInterface
 		return mOperatorPanel.getRawAxis(Constants.kIntakeWristAxis);
 	}
 	
+	public double getMaualLift()
+	{
+		return mOperatorPanel.getRawAxis(Constants.kLiftAxis2) - mOperatorPanel.getRawAxis(Constants.kLiftAxis1);
+	}
 	
+
+	public double getManualClimb()
+	{
+		return -mOperatorPanel.getRawAxis(Constants.kClimbAxis);
+	}
 	
+	public boolean getClimbRelease()
+	{
+		return mOperatorPanel.getRawButton(Constants.kClimbReleaseButton);
+	}
 	
-	
-	
+	public boolean getClimbButton()
+	{
+		return mOperatorPanel.getRawButton(Constants.kClimbButton);
+	}
 	
 	
 	

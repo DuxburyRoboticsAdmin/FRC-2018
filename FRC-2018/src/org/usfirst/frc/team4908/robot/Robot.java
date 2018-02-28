@@ -6,7 +6,10 @@ import org.usfirst.frc.team4908.robot.auto.AutoRunner;
 import org.usfirst.frc.team4908.robot.subsystems.Climb;
 import org.usfirst.frc.team4908.robot.subsystems.Drive;
 import org.usfirst.frc.team4908.robot.subsystems.Intake;
+import org.usfirst.frc.team4908.robot.subsystems.Lift;
 import org.usfirst.frc.team4908.robot.subsystems.Subsystem;
+import org.usfirst.frc.team4908.robot.util.ADIS16448_IMU;
+import org.usfirst.frc.team4908.robot.util.SharpIR;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -14,32 +17,33 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot
-{
-	
-	private Compressor c;
-	
+{	
 	private ArrayList<Subsystem> mSubsystems;
-		
-	AnalogInput us;
-		
-	CameraServer cs;
-	UsbCamera cam;
+				
+	//CameraServer cs;
+	//UsbCamera cam;
+	public ADIS16448_IMU gyro = new ADIS16448_IMU();
 	
+	
+	SharpIR lmfao = new SharpIR(0);
+
 	public Robot()
 	{
 		mSubsystems = new ArrayList<>();
-		c = new Compressor();
-        CameraServer.getInstance().startAutomaticCapture();
-		
-		us = new AnalogInput(0);
+        //CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	public void robotInit()
 	{
-    	mSubsystems.add(Drive.getInstance());
-
+		/*
+		mSubsystems.add(Drive.getInstance());
+    	mSubsystems.add(Lift.getInstance());
+    	mSubsystems.add(Climb.getInstance());
+    	mSubsystems.add(Intake.getInstance());
+		*/
 	}
 	
 	public void autonomousInit()
@@ -54,9 +58,7 @@ public class Robot extends TimedRobot
 	}
 	
 	public void teleopInit()
-	{
-		c.start();
-		
+	{		
 		for(Subsystem s : mSubsystems)
 		{
 			s.init();
@@ -69,11 +71,24 @@ public class Robot extends TimedRobot
 		{
 			s.loop();
 		}		
+
+		SmartDashboard.putNumber("AngleX", gyro.getAngleX());
+		SmartDashboard.putNumber("AngleY", gyro.getAngleY());
+		SmartDashboard.putNumber("AngleZ", gyro.getAngleZ());
+		
+		SmartDashboard.putNumber("Val", lmfao.getVoltage());
+		SmartDashboard.putNumber("dis", lmfao.getDistance());
+		double temp = SmartDashboard.getNumber("asdf", lmfao.K_VAL);
+		
+		if (temp != lmfao.K_VAL)
+		{
+			lmfao.setK(temp);
+		}
+		
 	}
 	
 	public void disabledInit()
 	{
-		c.stop();
 		AutoRunner.getInstance().setRoutine();
 	}
 	

@@ -19,7 +19,7 @@ public abstract class AutoRoutine
 
 	public void loop()
 	{
-		
+		System.out.println("eree");
 		if(!mRunning && !mDone)
 		{
 			
@@ -44,6 +44,7 @@ public abstract class AutoRoutine
 		}
 		else if(mRunning && !mDone)
 		{
+			System.out.println("loop");
 			mCommands.get(mIndex).loop();
 		
 			if(!mNextCommandParallel && mCommands.get(mIndex).finished() || mCommands.get(mIndex).timeOut())

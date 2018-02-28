@@ -19,7 +19,6 @@ public class Intake extends Subsystem
 	OperatorInterface oi = OperatorInterface.getInstance();
 
 	private DoubleSolenoid mLeftArmPiston;
-	private DoubleSolenoid mRightArmPiston;
 
 	private TalonSRX mWristMotor;
 	private VictorSP mLeftArmMotor;
@@ -45,8 +44,7 @@ public class Intake extends Subsystem
 	
 	public Intake()
 	{
-		mLeftArmPiston = new DoubleSolenoid(2, 3);
-		mRightArmPiston = new DoubleSolenoid(4, 5);
+		mLeftArmPiston = new DoubleSolenoid(Constants.kLeftIntakePistonF, Constants.kLeftIntakePistonR);
 		
 		//mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
 		//mRightPot = new AnalogInput(Constants.kRightIntakePotID);
@@ -83,25 +81,38 @@ public class Intake extends Subsystem
 	{		
 		if(oi.getManualOpenIntake())
 		{
+			System.out.println("openin");
 			mLeftArmPiston.set(Value.kForward);
-			mRightArmPiston.set(Value.kForward);
 		}
 		else if(oi.getManualCloseIntake())
 		{
+			System.out.println("closing");
 			mLeftArmPiston.set(Value.kReverse);
-			mRightArmPiston.set(Value.kReverse);
 		}
 		else
 		{
+			
 			mLeftArmPiston.set(Value.kOff);
-			mRightArmPiston.set(Value.kOff);
+		}
+		
+		if(oi.getIntakeButton())
+		{
+			mWristMotor.set(ControlMode.PercentOutput, 0.5);
+		}
+		else if(oi.getIntakeCancelButton())
+		{
+			mWristMotor.set(ControlMode.PercentOutput, -0.5);
+		}
+		else
+		{
+			mWristMotor.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		
 		mLeftArmMotor.set(-oi.getManualRollers());
 		mRightArmMotor.set(oi.getManualRollers());
 		
-		mWristMotor.set(ControlMode.PercentOutput, oi.getManualWrist());
+		//mWristMotor.set(ControlMode.PercentOutput, oi.getManualWrist());
 		
 	}
 

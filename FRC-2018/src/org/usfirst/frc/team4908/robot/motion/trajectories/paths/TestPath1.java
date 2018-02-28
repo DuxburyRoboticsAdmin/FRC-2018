@@ -22,14 +22,14 @@ public class TestPath1
 		mRPs.add(new ReferencePoint(6.0, 6.0));
 		*/
 		mRPs.add(new ReferencePoint(0.0, 0.0));
-		mRPs.add(new ReferencePoint(0.0, 1.0));
-		mRPs.add(new ReferencePoint(0.0, 3.0));
-		mRPs.add(new ReferencePoint(0.0, 4.0));
+		mRPs.add(new ReferencePoint(0.0, 1.5));
+		mRPs.add(new ReferencePoint(0.0, 4.5));
+		mRPs.add(new ReferencePoint(0.0, 6.0));
 		
 				
 		
 		
-		mTrajectory =  new Trajectory(1.5, mRPs);
+		mTrajectory =  new Trajectory(2.0, mRPs);
 	}	
 	
 	

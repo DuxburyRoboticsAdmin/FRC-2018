@@ -3,11 +3,13 @@ package org.usfirst.frc.team4908.robot.subsystems;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 import org.usfirst.frc.team4908.robot.motion.DriveCommand;
 import org.usfirst.frc.team4908.robot.motion.DriveHelper;
+import org.usfirst.frc.team4908.robot.util.ADIS16448_IMU;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -22,9 +24,9 @@ public class Drive extends Subsystem
 	}
 	
 	private TalonSRX leftMaster;
-	private TalonSRX leftSlave;
+	private VictorSPX leftSlave;
 	private TalonSRX rightMaster;
-	private TalonSRX rightSlave;
+	private VictorSPX rightSlave;
 	
 	private DoubleSolenoid mShifter;
 	
@@ -48,11 +50,11 @@ public class Drive extends Subsystem
 	private Drive()
 	{
 		leftMaster = new TalonSRX(Constants.kLeftMasterID);
-		leftSlave = new TalonSRX(Constants.kLeftSlaveID);
+		leftSlave = new VictorSPX(Constants.kLeftSlaveID);
 		rightMaster = new TalonSRX(Constants.kRightMasterID);
-		rightSlave = new TalonSRX(Constants.kRightSlaveID);	
+		rightSlave = new VictorSPX(Constants.kRightSlaveID);	
 	
-		mShifter = new DoubleSolenoid(0,1);
+		mShifter = new DoubleSolenoid(Constants.kShifterF, Constants.kShifterR);
 		
 		leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -91,8 +93,8 @@ public class Drive extends Subsystem
 		leftMaster.setSensorPhase(true);
 		rightMaster.setSensorPhase(true);
 		
-		leftMaster.configClosedloopRamp(0.3, 0);
-		rightMaster.configClosedloopRamp(0.3, 0);
+		leftMaster.configClosedloopRamp(0.1, 0);
+		rightMaster.configClosedloopRamp(0.1, 0);
 	}
 	
 
@@ -168,11 +170,17 @@ public class Drive extends Subsystem
 		SmartDashboard.putNumber("Left Encoder Vel", leftMaster.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Encoder Vel", rightMaster.getSelectedSensorVelocity(0));
 		
+		
+		System.out.println("Left Vel: " + leftMaster.getSelectedSensorVelocity(0));
+		System.out.println("Right Vel: " + rightMaster.getSelectedSensorVelocity(0));
+		
 		SmartDashboard.putNumber("Left Encoder Pos", leftMaster.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("Right Encoder Pos", rightMaster.getSelectedSensorPosition(0));
 		
 		SmartDashboard.putNumber("Left Drive Command", dc.getLeft());
 		SmartDashboard.putNumber("Right Drive Command", dc.getRight());
+		
+		
 		
 		
 		
@@ -219,7 +227,6 @@ public class Drive extends Subsystem
 	{
 		leftTEMP = leftMaster.getSelectedSensorVelocity(0);
 		rightTEMP = rightMaster.getSelectedSensorVelocity(0);
-		
 
 		SmartDashboard.putNumber("Left Encoder Vel", leftMaster.getSelectedSensorVelocity(0));
 		SmartDashboard.putNumber("Right Encoder Vel", rightMaster.getSelectedSensorVelocity(0));
