@@ -28,6 +28,7 @@ public class FollowPath extends AutoCommand
 	@Override
 	public void loop() 
 	{
+		System.out.println("ereeeeeeeee==================");
 		Drive.getInstance().followPath(DriveHelper.followPath(mIndex, mTrajectory));
 		mIndex++;
 	}

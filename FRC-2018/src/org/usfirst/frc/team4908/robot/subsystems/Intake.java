@@ -3,6 +3,7 @@ package org.usfirst.frc.team4908.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 
@@ -18,7 +19,6 @@ public class Intake extends Subsystem
 	OperatorInterface oi = OperatorInterface.getInstance();
 
 	private DoubleSolenoid mLeftArmPiston;
-	private DoubleSolenoid mRightArmPiston;
 
 	private TalonSRX mWristMotor;
 	private VictorSP mLeftArmMotor;
@@ -44,11 +44,10 @@ public class Intake extends Subsystem
 	
 	public Intake()
 	{
-		mLeftArmPiston = new DoubleSolenoid(2, 3);
-		mRightArmPiston = new DoubleSolenoid(4, 5);
+		mLeftArmPiston = new DoubleSolenoid(Constants.kLeftIntakePistonF, Constants.kLeftIntakePistonR);
 		
-		mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
-		mRightPot = new AnalogInput(Constants.kRightIntakePotID);
+		//mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
+		//mRightPot = new AnalogInput(Constants.kRightIntakePotID);
 		
 		mWristMotor 	= new TalonSRX(Constants.kWristMotorID);
 		mLeftArmMotor 	= new VictorSP(Constants.kLeftIntakeMotorID);
@@ -79,27 +78,41 @@ public class Intake extends Subsystem
 
 	@Override
 	public void loop() 
-	{
-		if(oi.getIntakeButton() && set)
+	{		
+		if(oi.getManualOpenIntake())
 		{
-			mIntakeState = IntakeState.GETTING;
+			System.out.println("openin");
+			mLeftArmPiston.set(Value.kForward);
+		}
+		else if(oi.getManualCloseIntake())
+		{
+			System.out.println("closing");
+			mLeftArmPiston.set(Value.kReverse);
+		}
+		else
+		{
+			
+			mLeftArmPiston.set(Value.kOff);
+		}
+		
+		if(oi.getIntakeButton())
+		{
+			mWristMotor.set(ControlMode.PercentOutput, 0.5);
+		}
+		else if(oi.getIntakeCancelButton())
+		{
+			mWristMotor.set(ControlMode.PercentOutput, -0.5);
+		}
+		else
+		{
+			mWristMotor.set(ControlMode.PercentOutput, 0.0);
 		}
 		
 		
-		switch(mIntakeState)
-		{
+		mLeftArmMotor.set(-oi.getManualRollers());
+		mRightArmMotor.set(oi.getManualRollers());
 		
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		//mWristMotor.set(ControlMode.PercentOutput, oi.getManualWrist());
 		
 	}
 

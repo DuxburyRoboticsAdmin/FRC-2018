@@ -8,8 +8,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import org.usfirst.frc.team4908.robot.IO.OperatorInterface;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Climb extends Subsystem
 {
@@ -83,6 +87,7 @@ public class Climb extends Subsystem
 		mRightSlave.setInverted(false);
 
 		mLeftMaster.setSensorPhase(true);
+		mState = ClimbState.RESTING_DOWN;
 	}
 
 	@Override
@@ -106,6 +111,75 @@ public class Climb extends Subsystem
 			mClimberReleased = false;
 		}
 
+		switch(mState)
+		{
+			case RESTING_DOWN:
+			{
+				if(oi.getClimbRelease())
+				{
+					mState = ClimbState.RAISING;
+				}
+				setMotors(0.0);
+				break; 
+			}
+			case RAISING:
+			{
+				if(oi.getClimbRelease())
+				{
+					setMotors(Constants.kClimbReleaseSpeed);
+				}
+				else
+				{
+					mState = ClimbState.RESTING_UP;
+				}
+				break;
+			}
+			case RESTING_UP: 
+			{
+				if(oi.getClimbRelease())
+				{
+					mState = ClimbState.RAISING;
+				}
+				else if(oi.getClimbButton())
+				{
+					mState = ClimbState.CLIMBING;
+				}
+				setMotors(0.0);
+				break;
+
+			}
+			case CLIMBING:
+			{
+				if(mLimitSwitch.get())
+				{
+					setMotors(Constants.kClimbSpeed);
+				}
+				else
+				{
+					mState = ClimbState.HOLDING;
+				}
+				break;
+
+			}
+			case HOLDING:
+			{
+				if(!mLimitSwitch.get())
+				{
+					setMotors(Constants.kClimbHoldSpeed);
+				}
+				
+				if(oi.getClimbButton())
+				{
+					mState = ClimbState.CLIMBING;
+				}
+				else if(oi.getClimbRelease())
+				{
+					mState = ClimbState.RESTING_DOWN;
+				}
+				break;
+
+			}
+		}
 	}
 
 	@Override
@@ -120,4 +194,10 @@ public class Climb extends Subsystem
 		
 	}
 
+	public void setMotors(double speed)
+	{
+		mLeftMaster.set(ControlMode.PercentOutput, speed);
+		mRightMaster.set(ControlMode.PercentOutput, speed);
+	}
+	
 }
