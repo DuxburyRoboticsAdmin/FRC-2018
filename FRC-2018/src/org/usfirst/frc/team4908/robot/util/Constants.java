@@ -48,22 +48,45 @@ public class Constants
 	public static final int kLeftIntakePistonF	= 3;
 	public static final int kLeftIntakePistonR	= 7;
 	
-	// INTAKE CONTROLS
-	public static final int kIntakeEnableButton	= 1;
-	public static final int kIntakeDisableButton= 4;
-	public static final int kIntakeOpenButton	= 2;
-	public static final int kIntakeCloseButton	= 3;
-	public static final int kIntakeRollersAxis	= 1;
-	public static final int kIntakeWristAxis	= -1;
+	public static final double kIRUpper = 10.0;
+	public static final double kIRLower	= 0.0;
 	
+	// INTAKE CONTROLS
+	public static final int kIntakeLeftAxis		= 2;
+	public static final int kIntakeRightAxis	= 3;
 	
 	// LIFT CONSTANTS
 	public static final int kLiftLeftMotorID	= 12;
 	public static final int kLiftRightMotorID	= 15;
 	
 	// LIFT CONTROLS
-	public static final int kLiftAxis1	= 3;
-	public static final int kLiftAxis2	= 2;
+	public static final int kLiftAxis1			= 1;	
+	
+	public static final double kLiftDeadzone 	= 0.1;
+	public static final double kWristDeadzone	= 0.1;
+	
+	public static final int kBottomHeightButton = 1;
+	public static final int kCarryHeightButton 	= 3;
+	public static final int kTopHeightButton 	= 4;
+	public static final int kBackHeightButton 	= 2;
+	
+	// LIFT HEIGHTS
+	public static final double kBottomHeight	= 0.0;
+	public static final double kCarryHeight		= 500000.0;
+	public static final double kTopHeight		= 1350000.0;
+	public static final double kBackHeight		= 1350000.0;
+	
+	public static final double kLiftEpsilon		= 50000.0;
+	
+	// WRISST ANGLES
+	public static final double kBackAngle			= 0.0;
+	public static final double kCarryAngle			= 0.0;
+	public static final double kFlatAngle			= 0.0;
+	public static final double kWristThresholdAngle = 0.0;
+	
+
+	public static final int kWristAxis	= -1;
+	
 	
 	
 	// CLIMBER CONSTANTS
@@ -81,5 +104,6 @@ public class Constants
 	public static final double kClimbReleaseSpeed 	= -0.5;
 	public static final double kClimbSpeed 			= 0.6;
 	public static final double kClimbHoldSpeed		= 0.2;
+	
 
 }

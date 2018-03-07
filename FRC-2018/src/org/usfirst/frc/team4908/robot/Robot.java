@@ -22,9 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot
 {	
 	private ArrayList<Subsystem> mSubsystems;
-				
-	//CameraServer cs;
-	//UsbCamera cam;
+
 	public ADIS16448_IMU gyro = new ADIS16448_IMU();
 	
 	
@@ -33,15 +31,14 @@ public class Robot extends TimedRobot
 	public Robot()
 	{
 		mSubsystems = new ArrayList<>();
-        //CameraServer.getInstance().startAutomaticCapture();
 	}
 	
 	public void robotInit()
 	{
-		/*
-		mSubsystems.add(Drive.getInstance());
+		
+		//mSubsystems.add(Drive.getInstance());
     	mSubsystems.add(Lift.getInstance());
-    	mSubsystems.add(Climb.getInstance());
+    	/*mSubsystems.add(Climb.getInstance());
     	mSubsystems.add(Intake.getInstance());
 		*/
 	}

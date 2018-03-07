@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import org.usfirst.frc.team4908.robot.util.Constants;
+import org.usfirst.frc.team4908.robot.util.SharpIR;
 
 public class Intake extends Subsystem
 {
@@ -18,102 +19,106 @@ public class Intake extends Subsystem
 	public static Intake getInstance() { return mInstance; }
 	OperatorInterface oi = OperatorInterface.getInstance();
 
-	private DoubleSolenoid mLeftArmPiston;
+	private DoubleSolenoid mIntakePiston;
 
-	private TalonSRX mWristMotor;
 	private VictorSP mLeftArmMotor;
 	private VictorSP mRightArmMotor;
 
-	private AnalogInput mLeftPot;
-	private AnalogInput mRightPot;
-
-	private boolean sent = false;
-	private boolean set = false;
+	private SharpIR mRightIR;
+	private SharpIR mLeftIR;
 	
-	private boolean mLeftDeployed = false;
-	private boolean mRightDeployed = false;
+	private boolean mDeployed;
+	private boolean mDropping;
+	private boolean mEjecting;
+	
+	
 	
 	public enum IntakeState
 	{
 		GETTING,
 		CLOSING,
-		ZEROING,
 		DISABLED
 	}
 	public IntakeState mIntakeState;
 	
 	public Intake()
 	{
-		mLeftArmPiston = new DoubleSolenoid(Constants.kLeftIntakePistonF, Constants.kLeftIntakePistonR);
+		mIntakePiston = new DoubleSolenoid(Constants.kLeftIntakePistonF, Constants.kLeftIntakePistonR);
 		
-		//mLeftPot = new AnalogInput(Constants.kLeftIntakePotID);
-		//mRightPot = new AnalogInput(Constants.kRightIntakePotID);
-		
-		mWristMotor 	= new TalonSRX(Constants.kWristMotorID);
 		mLeftArmMotor 	= new VictorSP(Constants.kLeftIntakeMotorID);
 		mRightArmMotor 	= new VictorSP(Constants.kRightIntakeMotorID);
+		
+		mRightIR = new SharpIR(Constants.kRightIntakeIRID);
+		mLeftIR = new SharpIR(Constants.kLeftIntakeIRID);
 
-		mWristMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		mWristMotor.configNominalOutputForward(0, 0);
-		mWristMotor.configNominalOutputReverse(0, 0);
-		mWristMotor.configPeakOutputForward(1, 0);
-		mWristMotor.configPeakOutputReverse(-1, 0);
-		mWristMotor.setInverted(true);
-		mWristMotor.setSensorPhase(false);
 	}
 	
 
 	@Override
 	public void init() 
 	{
-		 if(!set)
-		 {
-			 mIntakeState = IntakeState.ZEROING;
-		 }
-		 else
-		 {
-			 mIntakeState = IntakeState.DISABLED;
-		 }
+		
 	}
 
 	@Override
 	public void loop() 
-	{		
-		if(oi.getManualOpenIntake())
+	{
+		if(oi.getIntakeValue() >= 0.1)
 		{
-			System.out.println("openin");
-			mLeftArmPiston.set(Value.kForward);
+			mIntakeState = IntakeState.GETTING;
 		}
-		else if(oi.getManualCloseIntake())
+		
+		
+		if(mIntakeState == IntakeState.GETTING)
 		{
-			System.out.println("closing");
-			mLeftArmPiston.set(Value.kReverse);
-		}
-		else
-		{
+			mIntakePiston.set(Value.kForward);
+			mLeftArmMotor.set(oi.getIntakeValue());
+			mRightArmMotor.set(oi.getIntakeValue());
 			
-			mLeftArmPiston.set(Value.kOff);
+			if(mRightIR.getDistance() <= Constants.kIRUpper && mRightIR.getDistance() >= Constants.kIRLower &&
+					mLeftIR.getDistance() <= Constants.kIRUpper && mLeftIR.getDistance() >= Constants.kIRLower)
+			{
+				mIntakePiston.set(Value.kReverse);
+				mIntakeState = IntakeState.CLOSING;
+			}
+			
+			if(oi.getIntakeValue() <= -0.1)
+			{
+				mIntakePiston.set(Value.kReverse);
+				mIntakeState = IntakeState.DISABLED;
+			}
 		}
-		
-		if(oi.getIntakeButton())
+		else if(mIntakeState == IntakeState.CLOSING)
 		{
-			mWristMotor.set(ControlMode.PercentOutput, 0.5);
+			if(oi.getIntakeValue() <= -0.1)
+			{
+				mEjecting = true;
+				mLeftArmMotor.set(oi.getIntakeValue());
+				mRightArmMotor.set(oi.getIntakeValue());
+			}
+			else if(oi.getIntakeValue() >= 0.5)
+			{
+				mDropping = true;
+				mIntakePiston.set(Value.kForward);
+			}
+			else
+			{
+				mLeftArmMotor.set(0.0);
+				mRightArmMotor.set(0.0);
+				
+				if(mDropping)
+				{
+					mIntakePiston.set(Value.kReverse);
+					mDropping = false;
+					mIntakeState = IntakeState.DISABLED;
+				}
+				else
+				{
+					mIntakePiston.set(Value.kOff);
+				}
+			}
 		}
-		else if(oi.getIntakeCancelButton())
-		{
-			mWristMotor.set(ControlMode.PercentOutput, -0.5);
-		}
-		else
-		{
-			mWristMotor.set(ControlMode.PercentOutput, 0.0);
-		}
-		
-		
-		mLeftArmMotor.set(-oi.getManualRollers());
-		mRightArmMotor.set(oi.getManualRollers());
-		
-		//mWristMotor.set(ControlMode.PercentOutput, oi.getManualWrist());
-		
+
 	}
 
 	@Override

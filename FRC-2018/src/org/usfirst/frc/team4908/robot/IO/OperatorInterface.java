@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4908.robot.IO;
 
+import org.usfirst.frc.team4908.robot.subsystems.Lift;
 import org.usfirst.frc.team4908.robot.util.Constants;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -50,40 +51,20 @@ public class OperatorInterface
 	
 	// operator inputs
 	
-	
-	public boolean getIntakeButton()
+	public double getIntakeValue()
 	{
-		return mOperatorPanel.getRawButton(Constants.kIntakeEnableButton);
+		return mOperatorPanel.getRawAxis(Constants.kIntakeLeftAxis) - mOperatorPanel.getRawAxis(Constants.kIntakeRightAxis);
 	}
 	
-	public boolean getIntakeCancelButton()
-	{
-		return mOperatorPanel.getRawButton(Constants.kIntakeDisableButton);
-	}
-	
-	public boolean getManualOpenIntake()
-	{
-		return mOperatorPanel.getRawButton(Constants.kIntakeOpenButton);
-	}
-	
-	public boolean getManualCloseIntake()
-	{
-		return mOperatorPanel.getRawButton(Constants.kIntakeCloseButton);
-	}
-	
-	public double getManualRollers()
-	{
-		return mOperatorPanel.getRawAxis(Constants.kIntakeRollersAxis);
-	}
 	
 	public double getManualWrist()
 	{
-		return mOperatorPanel.getRawAxis(Constants.kIntakeWristAxis);
+		return mOperatorPanel.getRawAxis(Constants.kWristAxis);
 	}
 	
 	public double getMaualLift()
 	{
-		return mOperatorPanel.getRawAxis(Constants.kLiftAxis2) - mOperatorPanel.getRawAxis(Constants.kLiftAxis1);
+		return(mOperatorPanel.getRawAxis(Constants.kLiftAxis1));
 	}
 	
 
@@ -103,14 +84,29 @@ public class OperatorInterface
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public Lift.liftHeight getDesiredLiftHeight()
+	{
+		if(mOperatorPanel.getRawButton(Constants.kBottomHeightButton))
+		{
+			return Lift.liftHeight.BOTTOM_SET;
+		}
+		else if(mOperatorPanel.getRawButton(Constants.kCarryHeightButton))
+		{
+			return Lift.liftHeight.CARRY_SET;
+		}
+		else if(mOperatorPanel.getRawButton(Constants.kTopHeightButton))		
+		{
+			return Lift.liftHeight.TOP_SET;
+		}
+		else if(mOperatorPanel.getRawButton(Constants.kBackHeightButton))
+		{
+			return Lift.liftHeight.BACK_SET;
+		}
+		else
+		{
+			return Lift.liftHeight.NULL_SET;
+		}
+	}
 	
 	
 	
