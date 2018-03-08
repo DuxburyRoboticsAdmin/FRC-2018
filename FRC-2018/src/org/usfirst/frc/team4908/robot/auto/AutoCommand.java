@@ -25,10 +25,12 @@ public abstract class AutoCommand
 		this.mType = type;
 		
 		this.timeOutTime = timeOutTime * 1000000000.0;
-		startTime = System.nanoTime();
 	}
 	
-	public abstract void init();
+	public void init()
+	{
+		startTime = System.nanoTime();
+	}
 	
 	public abstract void loop();
 	
@@ -38,8 +40,13 @@ public abstract class AutoCommand
 	
 	public boolean timeOut()
 	{
+		currentTime = System.nanoTime();
+
+		System.out.println("Duration: " + ((currentTime - startTime) / 1000000000.0));
+
 		if(currentTime - startTime >= timeOutTime)
 		{
+			System.out.println("COMMAND TIMED OUT");
 			return true;
 		}
 		else

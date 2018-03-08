@@ -19,10 +19,8 @@ public abstract class AutoRoutine
 
 	public void loop()
 	{
-		System.out.println("eree");
 		if(!mRunning && !mDone)
 		{
-			
 			if(mIndex == mCommands.size() - 1)
 			{
 				mFinalCommand = true;
@@ -32,11 +30,16 @@ public abstract class AutoRoutine
 			
 			if(!mFinalCommand)
 			{
-				mNextCommandParallel = mCommands.get(mIndex + 1).equals(AutoCommand.commandType.PARALLEL);
+				mNextCommandParallel = mCommands.get(mIndex + 1).mType.equals(AutoCommand.commandType.PARALLEL);
+			}
+			else
+			{
+				mNextCommandParallel = false;
 			}
 				
 			if(mNextCommandParallel)
 			{
+				System.out.println("Initializing PARALLEL command " + (mIndex + 1));
 				mCommands.get(mIndex + 1).init();
 			}
 			
@@ -44,9 +47,10 @@ public abstract class AutoRoutine
 		}
 		else if(mRunning && !mDone)
 		{
-			System.out.println("loop");
+			System.out.println("Looping SEQUENTIAL command " + (mIndex));
 			mCommands.get(mIndex).loop();
-		
+
+
 			if(!mNextCommandParallel && mCommands.get(mIndex).finished() || mCommands.get(mIndex).timeOut())
 			{
 				
@@ -64,18 +68,21 @@ public abstract class AutoRoutine
 			{
 				if(mCommands.get(mIndex + 1).finished() || mCommands.get(mIndex + 1).timeOut())
 				{
+					System.out.println("Checking TIMEOUT PARALLEL Command " + (mIndex + 1));
 					mCommands.get(mIndex + 1).end();
 				}
 				else
 				{
+					System.out.println("Looping PARALLEL command " + (mIndex + 1));
 					mCommands.get(mIndex + 1).loop();
+
 				}
 				
 				if(mCommands.get(mIndex).finished() || mCommands.get(mIndex).timeOut())
 				{
 					mCommands.get(mIndex).end();
 
-					if(mIndex + 1 == mCommands.size() - 1)
+					if(mIndex == mCommands.size() - 1)
 					{
 						mDone = true;
 					}
@@ -91,6 +98,7 @@ public abstract class AutoRoutine
 		else if(mDone)
 		{
 			// TODO: FIND WHAT TO DO HERE
+			System.out.println("DONE WITH EVERYTHING");
 		}
 		
 	}
